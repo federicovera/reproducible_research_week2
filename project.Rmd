@@ -9,7 +9,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## 1- LOading the Data
+## 1)Loading and preprocesing the data
+
+## 1_1 Load the Data
 
 We take the URL of the data and put it on a local directory with  a copy on Github, load the data into R
 
@@ -26,12 +28,23 @@ download.file(URL,destfile="./datastore/repdata_2Fdata_2Factivity.zip",method="a
 # Unzip the file
 unzip(zipfile="./datastore/repdata_2Fdata_2Factivity.zip",exdir="data")
  
+```
+
+## 1_2 Process/Transform the data into a format suitable for analysis
+
+Cleaning the NA data
+
+```{r data}
+
 data <- read.csv("data/activity.csv", header=TRUE)
 clear_Data <- na.omit(data)
 
 ```
 
-## Calculating Total number of steps per day
+
+## 2) What is mean total number os steps taken per day?
+
+## 2_1 Calculating Total number of steps per day
 
 ```{r steps}
 
@@ -40,12 +53,12 @@ steps_x_day <- aggregate(clear_Data$steps, by= list(Steps.Date= clear_Data$date)
 ```
 
 
-## Plot total number steps each day
+## 2_2 Histogram of the total number os steps taken each day
 
 plot the number of steps  in the x axis, divided in 20 breaks, and the y shows
-the frecuenci of how many days that quantity appear.
+the frecuency of how many days that quantity appear.
 
-```{r plot steps x day echo="FALSE" }
+```{r  echo="FALSE" }
 hist(steps_x_day$x,
      breaks=20,
      main="Histogram total number steps x day",
@@ -53,15 +66,27 @@ hist(steps_x_day$x,
      ylab= "n° of days with this steps"
      )
 ```
+
+## Calculating and reporting the mean and median of the total number of 
+##steps taken per day
+
 ```{R mean and median}
 
 #Mean
 mean(steps_x_day$x, na.rm=TRUE)
 
+```
+
+
+```{R mean and median}
 #Median
 median(steps_x_day$x, na.rm=TRUE)
 
 ```
+
+
+
+
 ```{R Plot daily activity pattern}
 avg_steps_x_interval <- aggregate(steps ~ interval, clear_Data, mean)
 
@@ -78,5 +103,16 @@ plot(avg_steps_x_interval$interval, avg_steps_x_interval$steps, type="l",
 max_interval <- which.max(avg_steps_x_interval$steps)
 
 print (paste("The interval with the highest avg step is",avg_steps_x_interval[max_interval,]$interval," and the interval's step number is",round(avg_steps_x_interval[max_interval,]$steps, digits=1)))
+
+```
+
+```{R missing_values}
+missing_value_act <- data[!complete.cases(data),]
+nrow(missing_value_act)
+```
+
+```{R replace missing values}
+#data$complete_steps <- 
+
 
 ```
