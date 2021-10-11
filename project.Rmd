@@ -53,5 +53,12 @@ hist(steps_x_day$x,
      ylab= "n° of days with this steps"
      )
 ```
+```{R mean and median}
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+#Mean
+mean(steps_x_day$x, na.rm=TRUE)
+
+#Median
+median(steps_x_day$x, na.rm=TRUE)
+
+```
